@@ -30,15 +30,15 @@ func (r *Regex) DeleteRegex(id int) (bool,*dbus.Error) {
 
 //Signals
 func (r *Regex) EmitRegexAddedSignal(id int,name string,regex string,example string) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id,name,regex,example)
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".RegexAdded", id,name,regex,example)
 }
 
 func (r *Regex) EmitRegexUpdatedSignal(id int,name string,regex string,example string) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id,name,regex,example)
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".RegexUpdated", id,name,regex,example)
 }
 
 func (r *Regex) EmitRegexDeletedSignal(id int) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id)
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".RegexDeleted", id)
 }
 
 

@@ -116,7 +116,7 @@ def create_signal(iface_name, signal):
     abr = iface_name[0].lower()
     signal_name = signal["@name"]
     base = """func ({abr} *{iface_name}) Emit{signal_name}Signal({out_args}) {{
-    {abr}.bus.Emit({abr}.GetObjectPath(), {abr}.GetInterfacePath()+".{iface_name}", {out_args_names})
+    {abr}.bus.Emit({abr}.GetObjectPath(), {abr}.GetInterfacePath()+".{signal_name}", {out_args_names})
 }}\n\n""".format(
         abr=abr,
         iface_name=iface_name,

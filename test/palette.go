@@ -27,11 +27,11 @@ func (p *Palette) AnotherMethod(name string,id int,juj int64,array []string,anot
 
 //Signals
 func (p *Palette) EmitPingedSignal(param string) {
-    p.bus.Emit(p.GetObjectPath(), p.GetInterfacePath()+".Palette", param)
+    p.bus.Emit(p.GetObjectPath(), p.GetInterfacePath()+".Pinged", param)
 }
 
 func (p *Palette) EmitPinged2Signal(param string) {
-    p.bus.Emit(p.GetObjectPath(), p.GetInterfacePath()+".Palette", param)
+    p.bus.Emit(p.GetObjectPath(), p.GetInterfacePath()+".Pinged2", param)
 }
 
 
