@@ -29,16 +29,16 @@ func (r *Regex) DeleteRegex(id int) (bool,*dbus.Error) {
 
 
 //Signals
-func (r *Regex) EmitRegexAddedSignal(int,string,string,string) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", int,string,string,string)
+func (r *Regex) EmitRegexAddedSignal(id int,name string,regex string,example string) {
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id,name,regex,example)
 }
 
-func (r *Regex) EmitRegexUpdatedSignal(int,string,string,string) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", int,string,string,string)
+func (r *Regex) EmitRegexUpdatedSignal(id int,name string,regex string,example string) {
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id,name,regex,example)
 }
 
-func (r *Regex) EmitRegexDeletedSignal(int) {
-    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", int)
+func (r *Regex) EmitRegexDeletedSignal(id int) {
+    r.bus.Emit(r.GetObjectPath(), r.GetInterfacePath()+".Regex", id)
 }
 
 

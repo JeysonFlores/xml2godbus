@@ -57,14 +57,22 @@ def get_type(type):
         return "map[" + get_type(type[2]) + "]" + get_type(type[3])
 
 
-def parse_arg(arg):
-    if not "@direction" in arg:
-        return get_type(arg["@type"])
+def parse_arg(arg, signal):
+    if signal:
+        return arg["@name"], get_type(arg["@type"])
     else:
-        if arg["@direction"] == "in":
-            return arg["@name"] + " " + get_type(arg["@type"])
-        if arg["@direction"] == "out":
+        if not "@direction" in arg:
             return get_type(arg["@type"])
+        else:
+            if arg["@direction"] == "in":
+                return arg["@name"] + " " + get_type(arg["@type"])
+            if arg["@direction"] == "out":
+                return get_type(arg["@type"])
+
+
+def mix_args(names, datatypes):
+    for i in range(0, names):
+        pass
 
 
 def create_method(iface_name, method):
@@ -73,9 +81,9 @@ def create_method(iface_name, method):
     for arguments in method["arg"]:
         if len(arguments) > 0:
             if arguments["@direction"] == "in":
-                in_args += parse_arg(arguments) + ","
+                in_args += parse_arg(arguments, False) + ","
             elif arguments["@direction"] == "out":
-                out_args += parse_arg(arguments) + ","
+                out_args += parse_arg(arguments, False) + ","
     abr = iface_name[0].lower()
     method_name = method["@name"]
     base = (
@@ -96,18 +104,25 @@ def create_method(iface_name, method):
 
 def create_signal(iface_name, signal):
     out_args = ""
+    out_args_names = ""
     for arguments in signal["arg"]:
         if len(arguments) > 0:
             if "@direction" in arguments:
                 if arguments["@direction"] == "in":
                     continue
-            out_args += parse_arg(arguments) + ","
+            arg_name, arg_datatype = parse_arg(arguments, True)
+            out_args_names += arg_name + ","
+            out_args += arg_name + " " + arg_datatype + ","
     abr = iface_name[0].lower()
     signal_name = signal["@name"]
     base = """func ({abr} *{iface_name}) Emit{signal_name}Signal({out_args}) {{
-    {abr}.bus.Emit({abr}.GetObjectPath(), {abr}.GetInterfacePath()+".{iface_name}", {out_args})
+    {abr}.bus.Emit({abr}.GetObjectPath(), {abr}.GetInterfacePath()+".{iface_name}", {out_args_names})
 }}\n\n""".format(
-        abr=abr, iface_name=iface_name, signal_name=signal_name, out_args=out_args[:-1]
+        abr=abr,
+        iface_name=iface_name,
+        signal_name=signal_name,
+        out_args=out_args[:-1],
+        out_args_names=out_args_names[:-1],
     )
     return base
 
