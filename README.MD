@@ -35,6 +35,10 @@ Parse your XML introspection file for DBus to the godbus library.
 - click (8.0.3)
 - xmltodict (0.12.0)
 ```
+To install them just run:
+```
+pip3 install click xmltodict
+```
 ### Build
   ```
 git clone https://github.com/JeysonFlores/xml2godbus
